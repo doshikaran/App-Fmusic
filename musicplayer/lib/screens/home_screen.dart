@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:musicplayer/models/playlist_model.dart';
 import 'package:musicplayer/models/song_model.dart';
 import 'package:musicplayer/widgets/header.dart';
+import 'package:musicplayer/widgets/playlist_card.dart';
 import 'package:musicplayer/widgets/song_card.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -40,32 +41,10 @@ class HomeScreen extends StatelessWidget {
                     ListView.builder(
                         itemCount: playlists.length,
                         shrinkWrap: true,
+                        padding: const EdgeInsets.only(top: 10),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: ((context, index) {
-                          return Container(
-                            child: Row(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Image.asset(
-                                    playlists[index].imageUrl,
-                                    height: 50,
-                                    width: 50,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      playlists[index].title,
-                                    ),
-                                    Text(
-                                      "${playlists[index].songs.length} songs",
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          );
+                          return PlaylistCard(playlists: playlists[index]);
                         }))
                   ],
                 ),
