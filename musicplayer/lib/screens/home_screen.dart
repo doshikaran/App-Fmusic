@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:musicplayer/models/playlist_model.dart';
 import 'package:musicplayer/models/song_model.dart';
 import 'package:musicplayer/widgets/header.dart';
 import 'package:musicplayer/widgets/song_card.dart';
@@ -11,6 +12,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Song> songs = Song.songs;
+    List<Playlist> playlists = Playlist.playlists;
 
     return Container(
       decoration: BoxDecoration(
@@ -29,31 +31,83 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               SearchMusic(),
+              TrendingMusic(songs: songs),
               Padding(
-                padding: EdgeInsets.only(left: 20.0, top: 20, bottom: 20),
+                padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: 20),
-                      child: Header(title: 'Trending Music'),
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.27,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: songs.length,
-                        itemBuilder: (context, index) {
-                          return SongCard(songs: songs[index]);
-                        },
-                      ),
-                    )
+                    const Header(title: 'Playlists'),
+                    ListView.builder(
+                        itemCount: playlists.length,
+                        shrinkWrap: true,
+                        itemBuilder: ((context, index) {
+                          return Container(
+                            child: Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image.asset(
+                                    playlists[index].imageUrl,
+                                    height: 50,
+                                    width: 50,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      playlists[index].title,
+                                    ),
+                                    Text(
+                                      "${playlists[index].songs.length} songs",
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          );
+                        }))
                   ],
                 ),
               )
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class TrendingMusic extends StatelessWidget {
+  const TrendingMusic({
+    super.key,
+    required this.songs,
+  });
+
+  final List<Song> songs;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 20.0, top: 20, bottom: 20),
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(right: 20),
+            child: Header(title: 'Trending Music'),
+          ),
+          const SizedBox(height: 20),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.27,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: songs.length,
+              itemBuilder: (context, index) {
+                return SongCard(songs: songs[index]);
+              },
+            ),
+          )
+        ],
       ),
     );
   }
