@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:musicplayer/models/song_model.dart';
 import 'package:musicplayer/widgets/play_buttons.dart';
@@ -14,7 +15,7 @@ class SongScreen extends StatefulWidget {
 
 class _SongScreenState extends State<SongScreen> {
   AudioPlayer audioPlayer = AudioPlayer();
-  Song songs = Song.songs[0];
+  Song songs = Get.arguments ?? Song.songs[0];
 
   @override
   void initState() {
@@ -106,7 +107,25 @@ class MusicPlayer extends StatelessWidget {
               );
             },
           ),
-          PlayerButtons(audioPlayer: audioPlayer)
+          PlayerButtons(audioPlayer: audioPlayer),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.settings,
+                    color: Colors.white,
+                  )),
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.cloud_download,
+                    color: Colors.white,
+                  )),
+            ],
+          )
         ],
       ),
     );
